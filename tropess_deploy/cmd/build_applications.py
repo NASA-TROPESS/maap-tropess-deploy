@@ -23,13 +23,13 @@ DEFAULT_DOCKER_IMAGE_TAG = "latest"
 # Describes which repositories to build and their default locations
 # These can get overriden on the command line
 SOURCE_REPOS = {
-    "muses_ingest": "git@github.jpl.nasa.gov:MUSES-Processing/mdps-muses-data-ingest.git",
+    "muses_ingest": "git@github.jpl.nasa.gov:MUSES-Processing/muses-data-ingest.git",
     "py_tropess":"git@github.jpl.nasa.gov:MUSES-Processing/py-tropess.git", 
 }
 
 # Directories under deploy_base_dir where to put artifact files
 ARTIFACT_DIRS = {
-    "muses_ingest": "mdps-muses-data-ingest",
+    "muses_ingest": "muses-data-ingest",
     "py_tropess": "py-tropess",
 }
 

@@ -36,13 +36,13 @@ logger = logging.getLogger()
 
 # JSON files relative to this directory with default values in the form of a CWL parameters file
 DEFAULT_JOB_PARAMETER_FILE = {
-    "data_ingest": "mdps-muses-data-ingest/example_job_input.json",
+    "data_ingest": "muses-data-ingest/example_job_input.json",
     "py_tropess": "py-tropess/example_job_input.json",
 }
 
 # Sub directories under current directory where we can find deployment files
 SUBCOMMAND_DIRS = {
-    "data_ingest": "mdps-muses-data-ingest",
+    "data_ingest": "muses-data-ingest",
     "py_tropess": "py-tropess",
 }
 
