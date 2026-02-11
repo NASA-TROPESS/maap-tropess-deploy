@@ -12,7 +12,7 @@ import yaml
 
 from unity_app_generator import interface as build_interface
 
-from ..mdps.tool import MdpsTool
+from ..maap.tool import MaapTool
 
 # Deploy artifacts back to this repo
 APP_STATE_DIRNAME = ".app_state"
@@ -34,12 +34,12 @@ ARTIFACT_DIRS = {
 }
 
 SOURCE_CWL_ARTIFACT_FILENAME = "process.cwl"
-DEST_CWL_ARTIFACT_FILENAME = "process-{project_name}-{venue_name}.cwl"
+DEST_CWL_ARTIFACT_FILENAME = "process.cwl"
 EXAMPLE_JOB_INPUT_FILENAME = "example_job_input.json"
 
 logger = logging.getLogger()
 
-class DeployApp(MdpsTool):
+class DeployApp(MaapTool):
 
     def __init__(self, app_name, env_config_file=None, deploy_base_dir=None, **kwargs):
         super().__init__(env_config_file=env_config_file)
@@ -48,16 +48,6 @@ class DeployApp(MdpsTool):
         
         assert deploy_base_dir is not None
         self.deploy_base_dir = deploy_base_dir
-
-        self._verify_project_venue_name(self.mdps_project, self.mdps_venue)
-
-    def _verify_project_venue_name(self, project_name, venue_name):
-        "Load MDPS venue name from AWS parameter store"
-
-        client = boto3.client('ssm')
-        response = client.get_parameter(Name=f"/unity/{project_name}/{venue_name}/venue-name")
-
-        assert(response['Parameter']['Value'] == venue_name)
 
     @property
     def app_state_dir(self):
@@ -80,9 +70,9 @@ class DeployApp(MdpsTool):
             source_repo = SOURCE_REPOS[self.app_name]
 
         if checkout_tag is not None:
-            logger.info(f"Initializing {self.app_name} from {source_repo} @ {checkout_tag} for {self.mdps_project}/{self.mdps_venue}")
+            logger.info(f"Initializing {self.app_name} from {source_repo} @ {checkout_tag}")
         else:
-            logger.info(f"Initializing {self.app_name} from {source_repo} for {self.mdps_project}/{self.mdps_venue}")
+            logger.info(f"Initializing {self.app_name} from {source_repo}")
 
         # Clone repo into state dir
         checkout_dir = os.path.join(self.app_state_dir, "repo")
@@ -97,7 +87,7 @@ class DeployApp(MdpsTool):
     def build_app(self, image_tag=None):
         "Build Docker image to be used for venue deployment"
 
-        logger.info(f"Building {self.app_name} for {self.mdps_project}/{self.mdps_venue}")
+        logger.info(f"Building {self.app_name}")
 
         # Build a local Docker image
         build_interface.build_docker(self.app_state_dir,
@@ -107,14 +97,14 @@ class DeployApp(MdpsTool):
 
     def deploy_for_venue(self):
 
-        logger.info(f"Pushing Docker image for {self.app_name} into {self.mdps_project}/{self.mdps_venue}")
+        logger.info(f"Pushing Docker image for {self.app_name} into {XXXX}")
 
         # Push the image into ECR to set the remote URL
         build_interface.push_ecr(self.app_state_dir)
 
     def update_artifacts(self):
         
-        logger.info(f"Capturing {self.app_name} artifacts for {self.mdps_project}/{self.mdps_venue}")
+        logger.info(f"Capturing {self.app_name} artifacts")
         
         # Create CWL file
         build_interface.build_cwl(self.app_state_dir)
@@ -123,7 +113,7 @@ class DeployApp(MdpsTool):
         app_artifact_dirname = ARTIFACT_DIRS[self.app_name]
         source_cwl_fn = os.path.join(self.app_state_dir, "cwl", SOURCE_CWL_ARTIFACT_FILENAME)
 
-        dest_filename = DEST_CWL_ARTIFACT_FILENAME.format(project_name=self.mdps_project, venue_name=self.mdps_venue)
+        dest_filename = DEST_CWL_ARTIFACT_FILENAME
         dest_cwl_fn = os.path.join(self.deploy_base_dir, app_artifact_dirname, dest_filename)
 
         shutil.copyfile(source_cwl_fn, dest_cwl_fn)
