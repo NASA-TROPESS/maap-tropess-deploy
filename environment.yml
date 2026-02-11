@@ -1,4 +1,4 @@
-name: tropess-mdps-deploy
+name: maap-tropess-deploy
 channels:
 - conda-forge
 dependencies:

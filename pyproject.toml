@@ -3,17 +3,16 @@ requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "mdps-tropess-deploy"
+name = "maap-tropess-deploy"
 authors = [
   { name = "James McDuffie", email = "James.McDuffie@jpl.nasa.gov" },
 ]
-description="TROPESS MDPS Deployment Tooling"
+description="TROPESS MAAP Deployment Deployment and Operations Tools"
 requires-python = ">=3.12"
 dynamic = ["version", "dependencies", "optional-dependencies"]
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}
-optional-dependencies.docs = {file = ["requirements_docs.txt"]}
 
 [project.scripts]
 build_applications = "tropess_deploy.cmd.build_applications:main"
