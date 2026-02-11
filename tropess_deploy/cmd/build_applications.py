@@ -53,7 +53,7 @@ class DeployApp(MaapTool):
     def app_state_dir(self):
         "Where artifacts for unity-app-generator are stored"
         
-        # Keep a seperate state dir for each application
+        # Keep a separate state dir for each application
         state_dir = os.path.join(self.deploy_base_dir, APP_STATE_DIRNAME, self.app_name)
         if not os.path.exists(state_dir):
             os.makedirs(state_dir)
