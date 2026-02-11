@@ -4,7 +4,7 @@ boto3
 pyyaml
 dateparser
 prettytable
-unity_sds_client
+maap-py
 mdps-app-generator>=1.1.0
 # These packages are kept in JPL CAE Artifactory PyPi
 # See configuration instructions here:

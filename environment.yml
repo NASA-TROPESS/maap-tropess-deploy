@@ -11,7 +11,7 @@ dependencies:
 - pip:
   - cwltool
   - dotenv
-  - unity_sds_client
+  - maap-py
   - mdps-app-generator>=1.1.0
   # For the Python package, that uses the binary installed into Conda above
   - --extra-index-url https://artifactory.jpl.nasa.gov/artifactory/api/pypi/pypi-release-local/simple
