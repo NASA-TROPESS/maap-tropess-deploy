@@ -3,6 +3,8 @@ import logging
 
 from dotenv import load_dotenv
 
+from maap.maap import MAAP
+
 logger = logging.getLogger()
 class MaapTool(object):
 

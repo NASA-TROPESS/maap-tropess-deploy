@@ -17,11 +17,11 @@ from ..maap.tool import MaapTool
 # Deploy artifacts back to this repo
 APP_STATE_DIRNAME = ".app_state"
 
-DOCKER_IMAGE_NAMESPACE = "tropess"
+DOCKER_IMAGE_NAMESPACE = "nasa-tropess"
 DEFAULT_DOCKER_IMAGE_TAG = "latest"
 
 # Describes which repositories to build and their default locations
-# These can get overriden on the command line
+# These can get overridden on the command line
 SOURCE_REPOS = {
     "muses_ingest": "git@github.jpl.nasa.gov:MUSES-Processing/muses-data-ingest.git",
     "py_tropess":"git@github.jpl.nasa.gov:MUSES-Processing/py-tropess.git", 
@@ -95,12 +95,12 @@ class DeployApp(MaapTool):
                                      image_repository=ARTIFACT_DIRS[self.app_name],
                                      image_tag=image_tag)
 
-    def deploy_for_venue(self):
+    def deploy_image(self):
 
-        logger.info(f"Pushing Docker image for {self.app_name} into {XXXX}")
-
-        # Push the image into ECR to set the remote URL
-        build_interface.push_ecr(self.app_state_dir)
+        logger.info(f"Pushing Docker image for {self.app_name} into {DOCKER_IMAGE_NAMESPACE} GHCR namespace")
+    
+        # Push the image into Docker registry
+        build_interface.push_ghcr(self.app_state_dir)
 
     def update_artifacts(self):
         
@@ -184,7 +184,7 @@ def main():
         app_deploy.init_repo(getattr(args, app_name))
         if not args.skip_build:
             app_deploy.build_app(args.docker_tag)
-        app_deploy.deploy_for_venue()
+        app_deploy.deploy_image()
         app_deploy.update_artifacts()
 
 if __name__ == '__main__':
