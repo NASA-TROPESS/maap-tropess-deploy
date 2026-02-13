@@ -44,7 +44,7 @@ outputs:
     type: File
 requirements:
   DockerRequirement:
-    dockerPull: 103739919403.dkr.ecr.us-west-2.amazonaws.com/tropess/mdps-muses-data-ingest:latest
+    dockerPull: ghcr.io/nasa-tropess/muses-data-ingest:latest
   InitialWorkDirRequirement:
     listing:
     - entry: $(inputs)
